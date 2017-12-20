@@ -12,53 +12,16 @@
     </div>
 
   </div>
+  <div class="navbar-collapse collapse">
+    <ul class="nav sidenav-nav sidenav-right" id="mySidenav">
+      {% if current_user.is_authenticated %}
+      <li style="font-size:20px;color:white" id="home"><a href="/">HOME</a></li>
+      <li id="profile"><a href="{{url_for('main.profile',uname=current_user.username)}}">PROFILE</a></li>
+      <li id="sign-out"><a href="{{url_for('auth.logout')}}">SIGN OUT</a></li>
+      {% else %}
+      <li style="font-size:20px;color:white" id="home"><a href="/">HOME</a></li>
+      <li id="sign-in"><a href="{{url_for('auth.login')}}">SIGN IN</a></li>
+      {%endif%}
+    </ul>
+  </div>
 </div>
-<div class="navbar-collapse collapse">
-  <ul class="nav sidenav-nav sidenav" id="mySidenav">
-    {% if current_user.is_authenticated %}
-    <li style="font-size:20px;color:white" id="home"><a href="/">HOME</a></li>
-    <li id="profile"><a href="{{url_for('main.profile',uname=current_user.username)}}">PROFILE</a></li>
-    <li id="sign-out"><a href="{{url_for('auth.logout')}}">SIGN OUT</a></li>
-    {% else %}
-    <li style="font-size:20px;color:white" id="home"><a href="/">HOME</a></li>
-    <li id="sign-in"><a href="{{url_for('auth.login')}}">SIGN IN</a></li>
-    {%endif%}
-  </ul>
-</div>
-<style>
-@import url('https://fonts.googleapis.com/css?family=Special+Elite');
-#mySidenav a {
-    position: absolute;
-    transition: 1s;
-    left:-30px;
-    padding: 15px;
-    width: 200px;
-    text-decoration: none;
-    font-size: 20px;
-    background-color:#1A5276;
-    color: white;
-    border-radius: 0 5px 5px 0;
-    z-index: 10;
-    opacity: 0.4;
-}
-
-#mySidenav a:hover {
-    left: 0;
-}
-#profile {
-    top: 80px;
-    background-color: #1A5276;
-}
-#home {
-    top: 20px;
-    background-color: #1A5276;
-}
-#sign-in {
-    top: 80px;
-    background-color: #1A5276;
-}
-#sign-out {
-    top: 140px;
-    background-color: #1A5276;
-}
-</style>

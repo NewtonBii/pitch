@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, url_for, abort
 from . import main
 from flask_login import login_required
-from ..models import User
+from ..models import User, PitchCategory
 from .forms import UpdateProfile
 from .. import db, photos
 
@@ -12,6 +12,21 @@ def index():
 
     title = 'Home- Welcome to the Pitch Website'
     return render_template('index.html', title=title)
+
+
+@main.route('/category/<int:id>')
+def category(id):
+    '''
+    category route function returns a list of pitches in the category chosen
+    '''
+
+    category = PitchCategory.query.get(id)
+
+    if category is None:
+        abort(404)
+
+    pitches = Pitches.get_pitches(id)
+    return render_template('category.html', title=title, category=category, pitches=pitches)
 
 
 @main.route('/user/<uname>')

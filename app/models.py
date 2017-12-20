@@ -2,6 +2,7 @@ from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from . import login_manager
+from datetime import datetime
 
 
 @login_manager.user_loader
@@ -34,3 +35,67 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return f'User {self.username}'
+
+
+class PitchCategory(db.Model):
+    '''
+    Category class define category per pitch
+    '''
+    __tablename__ = 'pitch_categories'
+
+    # table columns
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255))
+    description = db.Column(db.String(255))
+
+    # save pitches
+    def save_category(self):
+        '''
+        Function that saves a category
+        '''
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_categories(cls):
+        '''
+        Function that returns all the data from the categories after being queried
+        '''
+        categories = Category.query.all()
+        return categories
+
+
+class Peptalk(db.Model):
+
+    """
+    Class that holds instances of all the pitches in the different categories
+    """
+    all_pitches = []
+
+    __tablename__ = 'pitches'
+
+    id = db.Column(db.Integer, primary_key=True)
+    actual_pitch = db.Column(db.String)
+    date_posted = db.Column(db.DateTime, default=datetime.now)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    category_id = db.Column(db.Integer, db.ForeignKey("pitch_categories.id"))
+    comment = db.relationship("Comments", backref="peptalk", lazy="dynamic")
+
+    def save_pitch(self):
+        '''
+        Function to save a pitch
+        '''
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def clear_pitches(cls):
+        """Function which clears all the pitches in a particular category"""
+        Pitches.all_pitches.clear()
+
+    # display pitches
+    @classmethod
+    def get_pitches(cls, id):
+        """Function which gets a particular pitch when requested by date posted"""
+        pitches = Pitches.query.order_by(Pitch.date_posted.desc()).filter_by(category_id=id).all()
+        return pitches
