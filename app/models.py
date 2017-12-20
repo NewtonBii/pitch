@@ -81,7 +81,7 @@ class Pitches(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     # user_id = db.Column(db.Integer, db.ForeignKey("users.username"))
     category_id = db.Column(db.Integer, db.ForeignKey("pitch_categories.id"))
-    # comment = db.relationship("Comments", backref="peptalk", lazy="dynamic")
+    comment = db.relationship("Comments", backref="peptalk", lazy="dynamic")
 
     def save_pitch(self):
         '''
