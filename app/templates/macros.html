@@ -1,11 +1,9 @@
-
 {% macro displayPitches(pitch_list) %}
   {% for pitches in pitch_list %}
   <div class="well" style="text-align:center">
         <h3>{{pitches.actual_pitch}}</h3>
           <hr>
-        <p>POSTED: {{pitches.date_posted.strftime('%Y/%m/%d %r')}}</p>
-        <p>Posted by:{{current_user}}</p>
+        <p>POSTED: {{pitches.date_posted.strftime('%Y/%m/%d || %r')}}</p>
         <a href="/pitch/{{pitches.id}}"><h4>COMMENT</h4></a>
 
   </div>

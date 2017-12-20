@@ -1,10 +1,5 @@
 {% extends 'base.html' %} {% import 'macros.html' as macro%}
 
-{%block styles%}
- {{ super() }}
-
-{%endblock%}
-
 <!-- content block -->
 {% block content %}
 <h3 class="text-center">{{category.name|upper}} PITCH</h3>
@@ -17,6 +12,7 @@
 <div class="well">
   <h4 style="padding:10%; text-align:center; font-size:50px">SORRY NO PITCHES AVAILABLE</h4>
 </div>
+
+
 {% endif %}
-<a class="btn btn-primary text-center text-danger" href="/category/pitch/new/{{category.id}}">Write a new Pitch</a>
-{% endblock %}
+<a class="btn btn-primary text-center text-danger" href="/category/pitch/new/{{category.id}}">Write a new Pitch</a>{% endblock %}

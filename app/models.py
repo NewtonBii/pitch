@@ -77,7 +77,7 @@ class Pitches(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     actual_pitch = db.Column(db.String)
-    date_posted = db.Column(db.DateTime, default=datetime.fromNow())
+    date_posted = db.Column(db.DateTime, default=datetime.now)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     # user_id = db.Column(db.Integer, db.ForeignKey("users.username"))
     category_id = db.Column(db.Integer, db.ForeignKey("pitch_categories.id"))
@@ -105,14 +105,14 @@ class Pitches(db.Model):
 
 class Comments(db.Model):
     '''
-    Comment class that creates instances of Comments class that will be attached to a particular pitch
+    Comment class that creates instances of Comments class that will be attached to a particular pi
     '''
     __tablename__ = 'comment'
 
     # add columns
     id = db.Column(db. Integer, primary_key=True)
     section_id = db.Column(db.String(255))
-    date_posted = db.Column(db.DateTime, default=datetime.fromNow())
+    date_posted = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     pitches_id = db.Column(db.Integer, db.ForeignKey("pitches.id"))
 
