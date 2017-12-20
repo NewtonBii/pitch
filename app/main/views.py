@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, url_for, abort
 from . import main
 from flask_login import login_required, current_user
-from ..models import User, PitchCategory, Pitches
+from ..models import User, PitchCategory, Pitches, Comments
 from .forms import UpdateProfile, PitchForm, CommentForm
 from .. import db, photos
 
@@ -69,7 +69,7 @@ def single_pitch(id):
         abort(404)
 
     comment = Comments.get_comments(id)
-    return render_template('pitch.html', title=title, pitches=pitches, comment=comment)
+    return render_template('pitch.html', pitches=pitches, comment=comment)
 
 
 # Routes for user authentication
@@ -114,3 +114,25 @@ def update_pic(uname):
         user.profile_pic_path = path
         db.session.commit()
     return redirect(url_for('main.profile', uname=uname))
+
+
+@main.route('/pitch/new/<int:id>', methods=['GET', 'POST'])
+@login_required
+def new_comment(id):
+    '''
+    Function that returns a list of comments for the particular pitch
+    '''
+    form = CommentForm()
+    pitches = Pitches.query.filter_by(id=id).first()
+
+    if pitches is None:
+        abort(404)
+
+    if form.validate_on_submit():
+        comment_id = form.comment.data
+        new_comment = Comments(comment_id=comment_id,
+                               user_id=current_user.id, pitches_id=pitches.id)
+        new_comment.save_comment()
+        return redirect(url_for('.category', id=pitches.id))
+
+    return render_template('comment.html', comment_form=form)
