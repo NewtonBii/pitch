@@ -18,8 +18,7 @@ def login():
 
         flash('Invalid username or Password')
 
-    title = "newsroom login"
-    return render_template('auth/login.html', login_form=login_form, title=title)
+    return render_template('auth/login.html', login_form=login_form)
 
 
 @auth.route('/register', methods=["GET", "POST"])

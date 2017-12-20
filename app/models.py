@@ -77,8 +77,9 @@ class Pitches(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     actual_pitch = db.Column(db.String)
-    date_posted = db.Column(db.DateTime, default=datetime.now)
+    date_posted = db.Column(db.DateTime, default=datetime.fromNow())
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    # user_id = db.Column(db.Integer, db.ForeignKey("users.username"))
     category_id = db.Column(db.Integer, db.ForeignKey("pitch_categories.id"))
     # comment = db.relationship("Comments", backref="peptalk", lazy="dynamic")
 
@@ -102,4 +103,28 @@ class Pitches(db.Model):
         return pitches
 
 
-# class Comments:
+class Comments(db.Model):
+    '''
+    Comment class that creates instances of Comments class that will be attached to a particular pitch
+    '''
+    __tablename__ = 'comment'
+
+    # add columns
+    id = db.Column(db. Integer, primary_key=True)
+    section_id = db.Column(db.String(255))
+    date_posted = db.Column(db.DateTime, default=datetime.fromNow())
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    pitches_id = db.Column(db.Integer, db.ForeignKey("pitches.id"))
+
+    def save_comment(self):
+        '''
+        Save the comments per pitch
+        '''
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_comments(self, id):
+        comment = Comments.query.order_by(
+            Comments.date_posted.desc()).filter_by(pitches_id=id).all()
+        return comment
