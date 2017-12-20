@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, url_for, abort
 from . import main
 from flask_login import login_required
-from ..models import User, PitchCategory
+from ..models import User, PitchCategory, Pitches
 from .forms import UpdateProfile
 from .. import db, photos
 
@@ -11,7 +11,10 @@ def index():
     """View root page function that returns index page and the various news sources"""
 
     title = 'Home- Welcome to the Pitch Website'
-    return render_template('index.html', title=title)
+    categories = PitchCategory.get_categories()
+    return render_template('index.html', title=title, categories=categories)
+
+# Routes for displaying the different pitches
 
 
 @main.route('/category/<int:id>')
@@ -26,9 +29,26 @@ def category(id):
         abort(404)
 
     pitches = Pitches.get_pitches(id)
-    return render_template('category.html', title=title, category=category, pitches=pitches)
+    return render_template('category.html', category=category, pitches=pitches)
 
 
+@main.route('/pitch/<int:id>', methods=['GET', 'POST'])
+@login_required
+def single_pitch(id):
+    '''
+    Function the returns a single pitch for comment to be added
+    '''
+
+    pitches = Pitches.query.get(id)
+
+    if pitches is None:
+        abort(404)
+
+    comment = Comments.get_comments(id)
+    return render_template('pitch.html', title=title, pitches=pitches, comment=comment)
+
+
+# Routes for user authentication
 @main.route('/user/<uname>')
 @login_required
 def profile(uname):

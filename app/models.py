@@ -48,7 +48,6 @@ class PitchCategory(db.Model):
     # table columns
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
-    description = db.Column(db.String(255))
 
     # save pitches
     def save_category(self):
@@ -63,7 +62,7 @@ class PitchCategory(db.Model):
         '''
         Function that returns all the data from the categories after being queried
         '''
-        categories = Category.query.all()
+        categories = PitchCategory.query.all()
         return categories
 
 
@@ -81,7 +80,7 @@ class Pitches(db.Model):
     date_posted = db.Column(db.DateTime, default=datetime.now)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     category_id = db.Column(db.Integer, db.ForeignKey("pitch_categories.id"))
-    comment = db.relationship("Comments", backref="peptalk", lazy="dynamic")
+    # comment = db.relationship("Comments", backref="peptalk", lazy="dynamic")
 
     def save_pitch(self):
         '''
@@ -99,5 +98,8 @@ class Pitches(db.Model):
     @classmethod
     def get_pitches(cls, id):
         """Function which gets a particular pitch when requested by date posted"""
-        pitches = Pitches.query.order_by(Pitch.date_posted.desc()).filter_by(category_id=id).all()
+        pitches = Pitches.query.order_by(Pitches.date_posted.desc()).filter_by(category_id=id).all()
         return pitches
+
+
+# class Comments:
