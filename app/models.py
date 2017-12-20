@@ -21,6 +21,8 @@ class User(UserMixin, db.Model):
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
     password_hash = db.Column(db.String(255))
+    pitches = db.relationship("Pitches", backref="user", lazy="dynamic")
+    # comment = db.relationship("Comments", backref="user", lazy = "dynamic")
 
     @property
     def password(self):
@@ -65,7 +67,7 @@ class PitchCategory(db.Model):
         return categories
 
 
-class Peptalk(db.Model):
+class Pitches(db.Model):
 
     """
     Class that holds instances of all the pitches in the different categories
