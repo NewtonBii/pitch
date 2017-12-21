@@ -17,12 +17,11 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(255))
     pass_secure = db.Column(db.String(255))
     email = db.Column(db.String(255), unique=True, index=True)
-    # role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
     password_hash = db.Column(db.String(255))
     pitches = db.relationship("Pitches", backref="user", lazy="dynamic")
-    # comment = db.relationship("Comments", backref="user", lazy = "dynamic")
+    comment = db.relationship("Comments", backref="user", lazy="dynamic")
 
     @property
     def password(self):
@@ -79,9 +78,8 @@ class Pitches(db.Model):
     actual_pitch = db.Column(db.String)
     date_posted = db.Column(db.DateTime, default=datetime.now)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    # user_id = db.Column(db.Integer, db.ForeignKey("users.username"))
     category_id = db.Column(db.Integer, db.ForeignKey("pitch_categories.id"))
-    comment = db.relationship("Comments", backref="peptalk", lazy="dynamic")
+    comment = db.relationship("Comments", backref="pitches", lazy="dynamic")
 
     def save_pitch(self):
         '''

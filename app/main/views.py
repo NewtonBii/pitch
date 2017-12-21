@@ -115,6 +115,8 @@ def update_pic(uname):
         db.session.commit()
     return redirect(url_for('main.profile', uname=uname))
 
+# Route to add commments.
+
 
 @main.route('/pitch/new/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -129,10 +131,10 @@ def new_comment(id):
         abort(404)
 
     if form.validate_on_submit():
-        comment_id = form.comment.data
+        comment_id = form.comment_id.data
         new_comment = Comments(comment_id=comment_id,
                                user_id=current_user.id, pitches_id=pitches.id)
         new_comment.save_comment()
-        return redirect(url_for('.category', id=pitches.id))
+        return redirect(url_for('.category', id=pitches.category_id))
 
     return render_template('comment.html', comment_form=form)
