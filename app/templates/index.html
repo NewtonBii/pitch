@@ -4,19 +4,48 @@
     {{ super() }}
     <link href="https://fonts.googleapis.com/css?family=Boogaloo|Bungee|Caveat+Brush|Russo+One" rel="stylesheet">
     <link rel="icon" href="static/images/favicon.ico">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}">
     <style>
-      .col-md-6:hover{
+    @import url('https://fonts.googleapis.com/css?family=Bungee|Chewy|Roboto+Mono');
+
+      #sidebar{
+        width: 250px;
+        height:100%;
+        background-color:#7DCEA0;
+        position:fixed;
+        overflow:auto;
+        font-family: 'Bungee', cursive;
+        /*font-family: 'Roboto Mono', monospace;
+        font-family: 'Chewy', cursive;*/
+      }
+      #sidebar p{
+        margin-left: 20px;
+        font-size: 25px;
+      }
+      #items{
+        margin:auto;
+        font-family: 'Chewy', cursive;
+      }
+      #items:hover{
         background-color: white;
+      }
+      a:link{
+        text-decoration: none;
       }
     </style>
 {% endblock %}
 {% block content %}
-<div class="container" style="background-color:grey; padding:5%">
+<div class="w3-sidebar w3-light-grey w3-bar-block" id="sidebar">
+  <h2 class="well">PITCHES</h2>
   {% for category in categories%}
-  <div class="col-md-6">
-    <a href="/category/{{category.id}}"><h1 style="text-align:center">{{category.name|upper}}</h1></a>
-  </div>
+  <a href="/category/{{category.id}}">
+    <div class="container" id="items">
+      <p>{{category.name|upper}}</p>
+    </div>
+  </a>
   {% endfor %}
+  <img src="static/images/humour.jpg" style="width:100%; height:250px">
+</div>
+<div style="margin-left:25%">
+
 </div>
 {% endblock %}
