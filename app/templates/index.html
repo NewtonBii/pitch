@@ -1,4 +1,5 @@
 {% extends 'base.html'%}
+{% import 'macros.html' as macro%}
 
 {% block styles%}
     {{ super() }}
@@ -36,13 +37,7 @@
 {% block content %}
 <div class="w3-sidebar w3-light-grey w3-bar-block" id="sidebar">
   <h2 class="well">PITCHES</h2>
-  {% for category in categories%}
-  <a href="/category/{{category.id}}">
-    <div class="container" id="items">
-      <p>{{category.name|upper}}</p>
-    </div>
-  </a>
-  {% endfor %}
+    {{ macro.displayCategoryList(categories) }}
   <img src="static/images/humour.jpg" style="width:100%; height:250px">
 </div>
 <div style="margin-left:25%">
