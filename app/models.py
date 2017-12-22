@@ -47,7 +47,6 @@ class PitchCategory(db.Model):
     # table columns
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
-    image = db.Column(db.String(255))
 
     # save pitches
     def save_category(self):

@@ -7,17 +7,22 @@
 
 <!-- content block -->
 {% block content %}
-<div class="well">
-  <h3>{{pitches.actual_pitch}}</h3>
+<div class="container">
+  <div class="col-md-6">
+    <div class="well">
+      <h3>{{pitches.actual_pitch}}</h3>
+    </div>
+  </div>
+  <div class="col-md-6">
+      <h4>Comments:</h4>
+      {% if comment %}
+      {{ macro.displaySpecificPitch(comment)}}
+      <hr>
+      {%else%}
+      <h3 class="text-center">No comments </h3>
+      {% endif %}
+      <p class="text-right"><a class="btn btn-primary" href="/pitch/new/{{pitches.id}}">Add a comment</a></p>
+  </div>
 </div>
-<div class="container" style="overflow-y:auto; height:300px">
-  <h4>Comments:</h4>
-  {% if comment %}
-  {{ macro.displaySpecificPitch(comment)}}
-  <hr>
-  {%else%}
-  <h3 class="text-center">No comments </h3>
-  {% endif %}
-  <p class="text-right"><a class="btn btn-primary" href="/pitch/new/{{pitches.id}}">Add a comment</a></p>
-</div>
+
 {% endblock %}
