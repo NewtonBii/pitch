@@ -5,24 +5,18 @@
     <link href="https://fonts.googleapis.com/css?family=Boogaloo|Bungee|Caveat+Brush|Russo+One" rel="stylesheet">
     <link rel="icon" href="static/images/favicon.ico">
     <link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}">
+    <style>
+      .col-md-6:hover{
+        background-color: white;
+      }
+    </style>
 {% endblock %}
 {% block content %}
-<div class="container">
+<div class="container" style="background-color:grey; padding:5%">
+  {% for category in categories%}
   <div class="col-md-6">
-    <a href="/category/1"><h1 style="text-align:center">INTERVIEW PITCH</h1></a>
-    <img src="static/images/interview.gif" alt="" style="height:250px; width:100%">
+    <a href="/category/{{category.id}}"><h1 style="text-align:center">{{category.name|upper}}</h1></a>
   </div>
-  <div class="col-md-6">
-    <a href="/category/2"><h1 style="text-align:center">PICK-UP LINES</h1></a>
-    <img src="static/images/pick-up.jpg" alt="" style="height:250px; width:100%">
-  </div>
-  <div class="col-md-6">
-    <a href="/category/3"><h1 style="text-align:center">PROMOTION PITCH</h1></a>
-    <img src="static/images/promo.jpg" alt="" style="height:250px; width:100%">
-  </div>
-  <div class="col-md-6">
-    <a href="/category/4"><h1 style="text-align:center">PRODUCT PITCH</h1></a>
-    <img src="static/images/sales.jpg" alt="" style="height:250px; width:100%">
-  </div>
+  {% endfor %}
 </div>
 {% endblock %}
